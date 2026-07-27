@@ -36,7 +36,7 @@ function Sketch({ svg, size = 64 }) {
     return (
       <div
         style={{ width: size, height: size }}
-        className="flex items-center justify-center rounded-md bg-white border border-stone-300 text-stone-300"
+        className="flex items-center justify-center rounded-md bg-white border border-neutral-800 text-neutral-600"
       >
         <Dumbbell size={size * 0.4} />
       </div>
@@ -45,7 +45,7 @@ function Sketch({ svg, size = 64 }) {
   return (
     <div
       style={{ width: size, height: size }}
-      className="rounded-md bg-white border border-stone-300 overflow-hidden flex items-center justify-center"
+      className="rounded-md bg-white border border-neutral-800 overflow-hidden flex items-center justify-center"
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   );
@@ -63,41 +63,41 @@ function SetsEditor({ initialSets, onCancel, onSave }) {
   const removeRow = (i) => setSets((prev) => prev.filter((_, idx) => idx !== i));
 
   return (
-    <div className="mt-2 p-3 bg-stone-100 rounded-lg border border-stone-300 space-y-2">
+    <div className="mt-2 p-3 bg-neutral-950 rounded-lg border border-neutral-800 space-y-2">
       {sets.map((s, i) => (
         <div key={i} className="flex items-center gap-2">
-          <span className="text-xs text-stone-500 w-4">{i + 1}</span>
+          <span className="text-xs text-neutral-400 w-4">{i + 1}</span>
           <input
             type="number"
             inputMode="numeric"
             placeholder="Reps"
             value={s.reps}
             onChange={(e) => updateSet(i, "reps", e.target.value)}
-            className="w-16 px-2 py-1 text-sm rounded border border-stone-300 bg-white"
+            className="w-16 px-2 py-1 text-sm rounded border border-neutral-800 bg-neutral-900 text-neutral-100"
           />
-          <span className="text-xs text-stone-400">×</span>
+          <span className="text-xs text-neutral-500">×</span>
           <input
             type="number"
             inputMode="decimal"
             placeholder="Kg"
             value={s.weight}
             onChange={(e) => updateSet(i, "weight", e.target.value)}
-            className="w-16 px-2 py-1 text-sm rounded border border-stone-300 bg-white"
+            className="w-16 px-2 py-1 text-sm rounded border border-neutral-800 bg-neutral-900 text-neutral-100"
           />
-          <span className="text-xs text-stone-400">kg</span>
+          <span className="text-xs text-neutral-500">kg</span>
           {sets.length > 1 && (
-            <button onClick={() => removeRow(i)} className="ml-auto text-stone-400 hover:text-red-600">
+            <button onClick={() => removeRow(i)} className="ml-auto text-neutral-500 hover:text-red-400">
               <X size={14} />
             </button>
           )}
         </div>
       ))}
       <div className="flex items-center justify-between pt-1">
-        <button onClick={addRow} className="text-xs text-teal-700 flex items-center gap-1 font-medium">
+        <button onClick={addRow} className="text-xs text-lime-400 flex items-center gap-1 font-medium">
           <Plus size={12} /> Añadir serie
         </button>
         <div className="flex gap-2">
-          <button onClick={onCancel} className="text-xs px-2 py-1 text-stone-500">
+          <button onClick={onCancel} className="text-xs px-2 py-1 text-neutral-400">
             Cancelar
           </button>
           <button
@@ -107,7 +107,7 @@ function SetsEditor({ initialSets, onCancel, onSave }) {
                 .filter((s) => s.reps > 0);
               if (cleaned.length) onSave(cleaned);
             }}
-            className="text-xs px-3 py-1 bg-teal-800 text-white rounded-md flex items-center gap-1 font-medium"
+            className="text-xs px-3 py-1 bg-lime-400 text-neutral-900 rounded-md flex items-center gap-1 font-medium"
           >
             <Save size={12} /> Guardar
           </button>
@@ -151,19 +151,22 @@ export default function App() {
 
   if (!loaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-stone-100 text-stone-400">
+      <div className="min-h-screen flex items-center justify-center bg-neutral-950 text-neutral-500">
         <Loader2 className="animate-spin mr-2" size={18} /> Cargando…
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-100 text-stone-900 font-sans pb-10">
-      <header className="bg-stone-900 text-stone-100 px-5 pt-6 pb-4 sticky top-0 z-10">
-        <h1 className="text-xl font-bold tracking-tight uppercase" style={{ letterSpacing: "0.04em" }}>
-          GYM
-        </h1>
-        <p className="text-xs text-stone-400 mt-0.5">Tu tabla, tu progreso.</p>
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans pb-10">
+      <header className="bg-neutral-950 text-neutral-100 px-5 pt-6 pb-4 sticky top-0 z-10 border-b border-neutral-900">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-6 bg-lime-400 rounded-sm" />
+          <h1 className="text-2xl font-black tracking-tight uppercase" style={{ letterSpacing: "0.02em" }}>
+            GYM
+          </h1>
+        </div>
+        <p className="text-xs text-neutral-500 mt-1 ml-4">Tu tabla, tu progreso.</p>
         <nav className="flex gap-1 mt-4">
           {[
             { id: "ejercicios", label: "Ejercicios" },
@@ -174,7 +177,7 @@ export default function App() {
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`px-3 py-1.5 text-xs font-semibold rounded-t-md ${
-                tab === t.id ? "bg-stone-100 text-stone-900" : "bg-stone-800 text-stone-400"
+                tab === t.id ? "bg-lime-400 text-neutral-900" : "bg-neutral-900 text-neutral-500"
               }`}
             >
               {t.label}
@@ -247,14 +250,14 @@ function EjerciciosTab({ data, persist }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-stone-300 p-4">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-stone-700 mb-3">Nuevo ejercicio</h2>
+      <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-4">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-neutral-200 mb-3">Nuevo ejercicio</h2>
         <div className="space-y-2">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Nombre del ejercicio (ej. Press banca)"
-            className="w-full px-3 py-2 text-sm rounded-md border border-stone-300"
+            className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800"
           />
           <div className="flex flex-wrap gap-1.5">
             {GRUPOS.map((g) => (
@@ -264,8 +267,8 @@ function EjerciciosTab({ data, persist }) {
                 onClick={() => toggleGroup(g)}
                 className={`px-2.5 py-1 text-xs rounded-full border ${
                   groups.includes(g)
-                    ? "bg-teal-800 border-teal-800 text-white"
-                    : "bg-white border-stone-300 text-stone-600"
+                    ? "bg-lime-400 border-lime-400 text-neutral-900"
+                    : "bg-neutral-900 border-neutral-800 text-neutral-300"
                 }`}
               >
                 {g}
@@ -277,12 +280,12 @@ function EjerciciosTab({ data, persist }) {
             onChange={(e) => setDesc(e.target.value)}
             placeholder="Describe cómo se hace el ejercicio (esto se usa para dibujar el boceto)"
             rows={2}
-            className="w-full px-3 py-2 text-sm rounded-md border border-stone-300"
+            className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800"
           />
           <button
             onClick={crearEjercicio}
             disabled={generating || !name.trim() || !desc.trim() || !groups.length}
-            className="w-full flex items-center justify-center gap-2 bg-teal-800 disabled:bg-stone-300 text-white text-sm font-semibold py-2 rounded-md"
+            className="w-full flex items-center justify-center gap-2 bg-lime-400 disabled:bg-neutral-800 text-neutral-900 disabled:text-neutral-600 text-sm font-semibold py-2 rounded-md"
           >
             {generating ? (
               <>
@@ -300,10 +303,10 @@ function EjerciciosTab({ data, persist }) {
       {GRUPOS.map((g) =>
         porGrupo[g].length ? (
           <div key={g}>
-            <h3 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">{g}</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wide text-neutral-400 mb-2">{g}</h3>
             <div className="space-y-2">
               {porGrupo[g].map((ex) => (
-                <div key={ex.id} className="bg-white rounded-xl border border-stone-300 p-3 flex items-center gap-3">
+                <div key={ex.id} className="bg-neutral-900 rounded-xl border border-neutral-800 p-3 flex items-center gap-3">
                   <Sketch svg={ex.svg} size={56} />
                   <div className="flex-1 min-w-0">
                     {editingId === ex.id ? (
@@ -311,13 +314,13 @@ function EjerciciosTab({ data, persist }) {
                         <input
                           value={editingName}
                           onChange={(e) => setEditingName(e.target.value)}
-                          className="flex-1 px-2 py-1 text-sm rounded border border-stone-300"
+                          className="flex-1 px-2 py-1 text-sm rounded border border-neutral-800"
                           autoFocus
                         />
-                        <button onClick={() => guardarNombre(ex.id)} className="text-teal-700">
+                        <button onClick={() => guardarNombre(ex.id)} className="text-lime-400">
                           <Check size={16} />
                         </button>
-                        <button onClick={() => setEditingId(null)} className="text-stone-400">
+                        <button onClick={() => setEditingId(null)} className="text-neutral-500">
                           <X size={16} />
                         </button>
                       </div>
@@ -329,29 +332,29 @@ function EjerciciosTab({ data, persist }) {
                             setEditingId(ex.id);
                             setEditingName(ex.name);
                           }}
-                          className="text-stone-400"
+                          className="text-neutral-500"
                         >
                           <Pencil size={13} />
                         </button>
                       </div>
                     )}
-                    <p className="text-xs text-stone-400 truncate">{ex.description}</p>
+                    <p className="text-xs text-neutral-500 truncate">{ex.description}</p>
                   </div>
                   {confirmDeleteId === ex.id ? (
                     <div className="flex items-center gap-1 text-xs">
-                      <span className="text-stone-500">¿Borrar?</span>
+                      <span className="text-neutral-400">¿Borrar?</span>
                       <button
                         onClick={() => {
                           eliminarEjercicio(ex.id);
                           setConfirmDeleteId(null);
                         }}
-                        className="px-1.5 py-0.5 bg-red-600 text-white rounded"
+                        className="px-1.5 py-0.5 bg-red-500 text-white rounded"
                       >
                         Sí
                       </button>
                       <button
                         onClick={() => setConfirmDeleteId(null)}
-                        className="px-1.5 py-0.5 bg-stone-200 rounded"
+                        className="px-1.5 py-0.5 bg-neutral-800 rounded"
                       >
                         No
                       </button>
@@ -359,7 +362,7 @@ function EjerciciosTab({ data, persist }) {
                   ) : (
                     <button
                       onClick={() => setConfirmDeleteId(ex.id)}
-                      className="text-stone-300 hover:text-red-600"
+                      className="text-neutral-600 hover:text-red-400"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -372,7 +375,7 @@ function EjerciciosTab({ data, persist }) {
       )}
 
       {!data.exercises.length && (
-        <p className="text-center text-sm text-stone-400 py-6">
+        <p className="text-center text-sm text-neutral-500 py-6">
           Todavía no tienes ejercicios. Crea el primero arriba.
         </p>
       )}
@@ -418,32 +421,32 @@ function SemanaTab({ data, persist }) {
         const ids = data.weekPlan[day] || [];
         const isOpen = openDay === day;
         return (
-          <div key={day} className="bg-white rounded-xl border border-stone-300 overflow-hidden">
+          <div key={day} className="bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden">
             <button
               onClick={() => setOpenDay(isOpen ? null : day)}
               className="w-full flex items-center justify-between px-4 py-3"
             >
               <span className="text-sm font-bold flex items-center gap-2">
-                <CalendarDays size={15} className="text-teal-700" /> {day}
+                <CalendarDays size={15} className="text-lime-400" /> {day}
               </span>
-              <span className="flex items-center gap-2 text-xs text-stone-400">
+              <span className="flex items-center gap-2 text-xs text-neutral-500">
                 {ids.length} ejercicio{ids.length !== 1 ? "s" : ""}
                 {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
               </span>
             </button>
             {isOpen && (
-              <div className="px-4 pb-4 space-y-2 border-t border-stone-200 pt-3">
+              <div className="px-4 pb-4 space-y-2 border-t border-neutral-800 pt-3">
                 {ids.map((exId) => {
                   const ex = data.exercises.find((e) => e.id === exId);
                   if (!ex) return null;
                   const last = lastLog(exId);
                   return (
-                    <div key={exId} className="bg-stone-50 rounded-lg border border-stone-200 p-2.5">
+                    <div key={exId} className="bg-neutral-800/60 rounded-lg border border-neutral-800 p-2.5">
                       <div className="flex items-center gap-2">
                         <Sketch svg={ex.svg} size={40} />
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium truncate">{ex.name}</p>
-                          <p className="text-xs text-stone-400">
+                          <p className="text-xs text-neutral-500">
                             {last
                               ? `Últ. (${last.date}): ` +
                                 last.sets.map((s) => `${s.reps}×${s.weight}kg`).join(", ")
@@ -457,13 +460,13 @@ function SemanaTab({ data, persist }) {
                                 removeFromDay(day, exId);
                                 setConfirmRemove(null);
                               }}
-                              className="px-1.5 py-0.5 bg-red-600 text-white rounded"
+                              className="px-1.5 py-0.5 bg-red-500 text-white rounded"
                             >
                               Sí
                             </button>
                             <button
                               onClick={() => setConfirmRemove(null)}
-                              className="px-1.5 py-0.5 bg-stone-200 rounded"
+                              className="px-1.5 py-0.5 bg-neutral-800 rounded"
                             >
                               No
                             </button>
@@ -471,7 +474,7 @@ function SemanaTab({ data, persist }) {
                         ) : (
                           <button
                             onClick={() => setConfirmRemove(`${day}|${exId}`)}
-                            className="text-stone-300 hover:text-red-600"
+                            className="text-neutral-600 hover:text-red-400"
                           >
                             <X size={15} />
                           </button>
@@ -486,7 +489,7 @@ function SemanaTab({ data, persist }) {
                       ) : (
                         <button
                           onClick={() => setLoggingId(exId)}
-                          className="mt-2 text-xs font-semibold text-teal-800 flex items-center gap-1"
+                          className="mt-2 text-xs font-semibold text-lime-400 flex items-center gap-1"
                         >
                           <Plus size={12} /> Registrar hoy
                         </button>
@@ -499,7 +502,7 @@ function SemanaTab({ data, persist }) {
                   <select
                     autoFocus
                     onChange={(e) => e.target.value && addExerciseToDay(day, e.target.value)}
-                    className="w-full px-2 py-2 text-sm rounded-md border border-stone-300 bg-white"
+                    className="w-full px-2 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100"
                     defaultValue=""
                   >
                     <option value="" disabled>
@@ -522,7 +525,7 @@ function SemanaTab({ data, persist }) {
                 ) : (
                   <button
                     onClick={() => setAddingTo(day)}
-                    className="text-xs font-semibold text-stone-500 flex items-center gap-1"
+                    className="text-xs font-semibold text-neutral-400 flex items-center gap-1"
                   >
                     <Plus size={12} /> Añadir ejercicio a {day}
                   </button>
@@ -566,7 +569,7 @@ function ProgresoTab({ data, persist }) {
   };
 
   if (!data.exercises.length) {
-    return <p className="text-center text-sm text-stone-400 py-6">Crea algún ejercicio primero.</p>;
+    return <p className="text-center text-sm text-neutral-500 py-6">Crea algún ejercicio primero.</p>;
   }
 
   return (
@@ -574,7 +577,7 @@ function ProgresoTab({ data, persist }) {
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
-        className="w-full px-3 py-2 text-sm rounded-md border border-stone-300 bg-white"
+        className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100"
       >
         {GRUPOS.map((g) => {
           const opts = data.exercises.filter((e) => gruposDe(e).includes(g));
@@ -592,61 +595,61 @@ function ProgresoTab({ data, persist }) {
       </select>
 
       {ex && (
-        <div className="flex items-center gap-3 bg-white rounded-xl border border-stone-300 p-3">
+        <div className="flex items-center gap-3 bg-neutral-900 rounded-xl border border-neutral-800 p-3">
           <Sketch svg={ex.svg} size={48} />
           <div>
             <p className="text-sm font-semibold">{ex.name}</p>
-            <p className="text-xs text-stone-400">{gruposDe(ex).join(", ")}</p>
+            <p className="text-xs text-neutral-500">{gruposDe(ex).join(", ")}</p>
           </div>
         </div>
       )}
 
       {entries.length ? (
         <>
-          <div className="bg-white rounded-xl border border-stone-300 p-3">
-            <h3 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2 flex items-center gap-1">
-              <TrendingUp size={13} className="text-teal-700" /> Evolución
+          <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3">
+            <h3 className="text-xs font-bold uppercase tracking-wide text-neutral-400 mb-2 flex items-center gap-1">
+              <TrendingUp size={13} className="text-lime-400" /> Evolución
             </h3>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={chartData} margin={{ left: -20, right: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 10 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" />
+                <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#a1a1aa" }} />
+                <YAxis tick={{ fontSize: 10, fill: "#a1a1aa" }} />
                 <Tooltip />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Line type="monotone" dataKey="pesoMax" name="Peso máx (kg)" stroke="#0f766e" strokeWidth={2} />
-                <Line type="monotone" dataKey="volumen" name="Volumen (reps×kg)" stroke="#b23a2e" strokeWidth={2} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#d4d4d8" }} />
+                <Line type="monotone" dataKey="pesoMax" name="Peso máx (kg)" stroke="#d4ff3d" strokeWidth={2} />
+                <Line type="monotone" dataKey="volumen" name="Volumen (reps×kg)" stroke="#ff5c5c" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
           <div className="space-y-2">
             {entries.map((entry) => (
-              <div key={entry.id} className="bg-white rounded-xl border border-stone-300 p-3">
+              <div key={entry.id} className="bg-neutral-900 rounded-xl border border-neutral-800 p-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{entry.date}</span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setEditingLog(editingLog === entry.id ? null : entry.id)}
-                      className="text-stone-400"
+                      className="text-neutral-500"
                     >
                       <Pencil size={14} />
                     </button>
                     {confirmDeleteLog === entry.id ? (
                       <div className="flex items-center gap-1 text-xs">
-                        <span className="text-stone-500">¿Borrar?</span>
+                        <span className="text-neutral-400">¿Borrar?</span>
                         <button
                           onClick={() => {
                             deleteEntry(entry.id);
                             setConfirmDeleteLog(null);
                           }}
-                          className="px-1.5 py-0.5 bg-red-600 text-white rounded"
+                          className="px-1.5 py-0.5 bg-red-500 text-white rounded"
                         >
                           Sí
                         </button>
                         <button
                           onClick={() => setConfirmDeleteLog(null)}
-                          className="px-1.5 py-0.5 bg-stone-200 rounded"
+                          className="px-1.5 py-0.5 bg-neutral-800 rounded"
                         >
                           No
                         </button>
@@ -654,7 +657,7 @@ function ProgresoTab({ data, persist }) {
                     ) : (
                       <button
                         onClick={() => setConfirmDeleteLog(entry.id)}
-                        className="text-stone-300 hover:text-red-600"
+                        className="text-neutral-600 hover:text-red-400"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -668,7 +671,7 @@ function ProgresoTab({ data, persist }) {
                     onSave={(sets) => updateEntry(entry.id, sets)}
                   />
                 ) : (
-                  <p className="text-xs text-stone-500 mt-1">
+                  <p className="text-xs text-neutral-400 mt-1">
                     {entry.sets.map((s) => `${s.reps}×${s.weight}kg`).join("  ·  ")}
                   </p>
                 )}
@@ -677,7 +680,7 @@ function ProgresoTab({ data, persist }) {
           </div>
         </>
       ) : (
-        <p className="text-center text-sm text-stone-400 py-6">
+        <p className="text-center text-sm text-neutral-500 py-6">
           Aún no hay registros para este ejercicio.
         </p>
       )}

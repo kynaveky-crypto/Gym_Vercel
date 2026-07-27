@@ -1,0 +1,9 @@
+{
+  "name": "GYM",
+  "short_name": "GYM",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f4",
+  "theme_color": "#1c1917",
+  "icons": []
+}

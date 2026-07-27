@@ -117,15 +117,65 @@ function SetsEditor({ initialSets, onCancel, onSave }) {
   );
 }
 
+const USER_STORAGE_KEY = "gym-user-id";
+
+const sanitizeUser = (name) =>
+  name
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // quitar acentos
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 30);
+
+function QuienEres({ onEntrar }) {
+  const [nombre, setNombre] = useState("");
+  return (
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex items-center justify-center px-6">
+      <div className="w-full max-w-xs">
+        <div className="flex items-center gap-2 justify-center mb-1">
+          <span className="w-2.5 h-6 bg-lime-400 rounded-sm" />
+          <h1 className="text-2xl font-black tracking-tight uppercase">GYM</h1>
+        </div>
+        <p className="text-xs text-neutral-500 text-center mb-6">¿Quién eres?</p>
+        <input
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && onEntrar(nombre)}
+          placeholder="Tu nombre"
+          autoFocus
+          className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100 text-center"
+        />
+        <button
+          onClick={() => onEntrar(nombre)}
+          disabled={!nombre.trim()}
+          className="w-full mt-3 bg-lime-400 disabled:bg-neutral-800 disabled:text-neutral-600 text-neutral-900 text-sm font-semibold py-2 rounded-md"
+        >
+          Entrar
+        </button>
+        <p className="text-[11px] text-neutral-600 text-center mt-4">
+          Cada nombre tiene su propia tabla y su propio progreso.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [data, setData] = useState(emptyData());
   const [loaded, setLoaded] = useState(false);
   const [tab, setTab] = useState("ejercicios");
+  const [userId, setUserId] = useState(() => localStorage.getItem(USER_STORAGE_KEY) || "");
 
   useEffect(() => {
+    if (!userId) {
+      setLoaded(true);
+      return;
+    }
     (async () => {
       try {
-        const res = await fetch("/api/data");
+        const res = await fetch(`/api/data?user=${encodeURIComponent(userId)}`);
         const json = await res.json();
         if (json && json.data) setData(json.data);
       } catch (e) {
@@ -134,20 +184,42 @@ export default function App() {
         setLoaded(true);
       }
     })();
-  }, []);
+  }, [userId]);
 
-  const persist = useCallback(async (next) => {
-    setData(next);
-    try {
-      await fetch("/api/data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(next),
-      });
-    } catch (e) {
-      console.error("Error guardando datos", e);
-    }
-  }, []);
+  const persist = useCallback(
+    async (next) => {
+      setData(next);
+      try {
+        await fetch(`/api/data?user=${encodeURIComponent(userId)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(next),
+        });
+      } catch (e) {
+        console.error("Error guardando datos", e);
+      }
+    },
+    [userId]
+  );
+
+  const entrar = (nombre) => {
+    const clean = sanitizeUser(nombre);
+    if (!clean) return;
+    localStorage.setItem(USER_STORAGE_KEY, clean);
+    setData(emptyData());
+    setLoaded(false);
+    setUserId(clean);
+  };
+
+  const cambiarUsuario = () => {
+    localStorage.removeItem(USER_STORAGE_KEY);
+    setData(emptyData());
+    setUserId("");
+  };
+
+  if (!userId) {
+    return <QuienEres onEntrar={entrar} />;
+  }
 
   if (!loaded) {
     return (
@@ -160,11 +232,16 @@ export default function App() {
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans pb-10">
       <header className="bg-neutral-950 text-neutral-100 px-5 pt-6 pb-4 sticky top-0 z-10 border-b border-neutral-900">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-6 bg-lime-400 rounded-sm" />
-          <h1 className="text-2xl font-black tracking-tight uppercase" style={{ letterSpacing: "0.02em" }}>
-            GYM
-          </h1>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-6 bg-lime-400 rounded-sm" />
+            <h1 className="text-2xl font-black tracking-tight uppercase" style={{ letterSpacing: "0.02em" }}>
+              GYM
+            </h1>
+          </div>
+          <button onClick={cambiarUsuario} className="text-[11px] text-neutral-500 underline">
+            {userId} · cambiar
+          </button>
         </div>
         <p className="text-xs text-neutral-500 mt-1 ml-4">Tu tabla, tu progreso.</p>
         <nav className="flex gap-1 mt-4">

@@ -73,7 +73,7 @@ function SetsEditor({ initialSets, onCancel, onSave }) {
             placeholder="Reps"
             value={s.reps}
             onChange={(e) => updateSet(i, "reps", e.target.value)}
-            className="w-16 px-2 py-1 text-sm rounded border border-neutral-800 bg-neutral-900 text-neutral-100"
+            className="w-16 px-2 py-1 text-sm rounded border border-neutral-800 bg-white text-neutral-900"
           />
           <span className="text-xs text-neutral-500">×</span>
           <input
@@ -82,7 +82,7 @@ function SetsEditor({ initialSets, onCancel, onSave }) {
             placeholder="Kg"
             value={s.weight}
             onChange={(e) => updateSet(i, "weight", e.target.value)}
-            className="w-16 px-2 py-1 text-sm rounded border border-neutral-800 bg-neutral-900 text-neutral-100"
+            className="w-16 px-2 py-1 text-sm rounded border border-neutral-800 bg-white text-neutral-900"
           />
           <span className="text-xs text-neutral-500">kg</span>
           {sets.length > 1 && (
@@ -145,7 +145,7 @@ function QuienEres({ onEntrar }) {
           onKeyDown={(e) => e.key === "Enter" && onEntrar(nombre)}
           placeholder="Tu nombre"
           autoFocus
-          className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100 text-center"
+          className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-white text-neutral-900 text-center"
         />
         <button
           onClick={() => onEntrar(nombre)}
@@ -334,7 +334,7 @@ function EjerciciosTab({ data, persist }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Nombre del ejercicio (ej. Press banca)"
-            className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100"
+            className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-white text-neutral-900"
           />
           <div className="flex flex-wrap gap-1.5">
             {GRUPOS.map((g) => (
@@ -357,7 +357,7 @@ function EjerciciosTab({ data, persist }) {
             onChange={(e) => setDesc(e.target.value)}
             placeholder="Describe cómo se hace el ejercicio (esto se usa para dibujar el boceto)"
             rows={2}
-            className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100"
+            className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-white text-neutral-900"
           />
           <button
             onClick={crearEjercicio}
@@ -391,7 +391,7 @@ function EjerciciosTab({ data, persist }) {
                         <input
                           value={editingName}
                           onChange={(e) => setEditingName(e.target.value)}
-                          className="flex-1 px-2 py-1 text-sm rounded border border-neutral-800 bg-neutral-900 text-neutral-100"
+                          className="flex-1 px-2 py-1 text-sm rounded border border-neutral-800 bg-white text-neutral-900"
                           autoFocus
                         />
                         <button onClick={() => guardarNombre(ex.id)} className="text-lime-400">
@@ -579,7 +579,7 @@ function SemanaTab({ data, persist }) {
                   <select
                     autoFocus
                     onChange={(e) => e.target.value && addExerciseToDay(day, e.target.value)}
-                    className="w-full px-2 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100"
+                    className="w-full px-2 py-2 text-sm rounded-md border border-neutral-800 bg-white text-neutral-900"
                     defaultValue=""
                   >
                     <option value="" disabled>
@@ -654,7 +654,7 @@ function ProgresoTab({ data, persist }) {
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
-        className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-neutral-900 text-neutral-100"
+        className="w-full px-3 py-2 text-sm rounded-md border border-neutral-800 bg-white text-neutral-900"
       >
         {GRUPOS.map((g) => {
           const opts = data.exercises.filter((e) => gruposDe(e).includes(g));
